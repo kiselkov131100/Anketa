@@ -1,69 +1,51 @@
 "use strict";
 
-let repeat = () => alert("Введите корректные данные");
+const validation = (fieldName) => {
+  let value = prompt(`Enter your ${fieldName}`);
 
-let userSurname = prompt("Ваша фамилия?");
-while (!isNaN(userSurname)) {
-  if (!isNaN(userSurname)) {
-    repeat();
+  if (fieldName === "age") {
+    while (!value || !Number.isInteger(value)) {
+      value = +prompt(`Enter your ${fieldName} again`);
+    }
   }
-  userSurname = prompt("Ваша фамилия?");
-}
 
-let userName = prompt("Ваше имя?");
-while (!isNaN(userName)) {
-  if (!isNaN(userName)) {
-    repeat();
+  while (!value) {
+    value = prompt(`Enter your ${fieldName} again`);
   }
-  userName = prompt("Ваше имя?");
-}
 
-let userPatronymic = prompt("Ваше отчество?");
-while (!isNaN(userPatronymic)) {
-  if (!isNaN(userPatronymic)) {
-    repeat();
+  return value;
+};
+
+const getGender = () => {
+  return confirm("Are you man?") ? "man" : "woman";
+};
+
+const getPension = (gender, age) => {
+  if ((gender === "man" && age >= 65) || (gender === "woman" && age >= 55)) {
+    return "yes";
+  } else {
+    return "no";
   }
-  userPatronymic = prompt("Ваше отчество?");
-}
+};
 
-let age = prompt("Ваш возраст?");
-while (!Number(age)) {
-  if (!Number(age)) {
-    repeat();
-  }
-  age = prompt("Ваш возраст?");
-}
-
-let ageDays = age * 365;
-let age5years = +age + 5;
-
-const MenPension = 65;
-const WomenPension = 55;
-
-let yourGender = confirm("Ваш пол - мужской?");
-let gender = yourGender ? "мужской" : "женский";
-
-let pension;
-
-if (
-  (age >= MenPension && gender === "мужской") ||
-  (age >= WomenPension && gender === "женский")
-) {
-  pension = "да";
-} else {
-  pension = "нет";
-}
-
-alert(` 
-  Ваше ФИО: ${userSurname}  ${userName}  ${userPatronymic}
-  Ваш возраст в годах: ${age}
-  Ваш возраст в днях: ${ageDays}
-  Через 5 лет вам будет: ${age5years}
+const showInfo = (username, surname, patronymic, age, gender, pension) => {
+  alert(`ФИО: ${username} ${surname} ${patronymic}
+  Ваш возрас в годах: ${age}
+  Ваш возрас в днях: ${age * 365}
+  Через 5 лет Вам будет: ${age + 5}
   Ваш пол: ${gender}
-  Вы на пенсии: ${pension}
-`);
+  Вы на пенсии: ${pension}`);
+};
 
-// Спросить у пользователя строку и посчитать количество русских гласных букв, отобразить через alert();
-let str = prompt("Введите строку");
-let len = str.match(/[аоэиуыеёюя]/gim).length;
-alert(len);
+const init = () => {
+  const username = validation("name");
+  const surname = validation("surname");
+  const patronymic = validation("patronymic");
+  const age = validation("age");
+  const gender = getGender();
+  const pension = getPension(gender, age);
+
+  showInfo(username, surname, patronymic, age, gender, pension);
+};
+
+init();
