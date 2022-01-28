@@ -1,16 +1,18 @@
-"use strict";
-
 const validation = (fieldName) => {
-  let value = prompt(`Enter your ${fieldName}`);
+  let value;
 
   if (fieldName === "age") {
+    value = +prompt(`Enter your ${fieldName}`);
+
     while (!value || !Number.isInteger(value)) {
       value = +prompt(`Enter your ${fieldName} again`);
     }
-  }
+  } else {
+    value = prompt(`Enter your ${fieldName}`);
 
-  while (!value) {
-    value = prompt(`Enter your ${fieldName} again`);
+    while (!value) {
+      value = prompt(`Enter your ${fieldName} again`);
+    }
   }
 
   return value;
